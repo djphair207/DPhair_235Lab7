@@ -18,7 +18,7 @@ public:
 	bool add(int data);
 	bool remove(int data);
 	void clear();
-	Node* comp(int data, Node* ptr);
+	Node* findNode(int data, Node* ptr);
 };
 
 #endif

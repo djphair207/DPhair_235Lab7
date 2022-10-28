@@ -23,7 +23,7 @@ bool BST::add(int data) {
 				ptr = ptr->getLeftChild();			// update the ptr so that it points to the left child of the current Node
 			}
 			else {																				// Otherwise, ...
-				ptr->setLeftChild(new Node(data,ptr,NULL,NULL)); // Create a new node that is stored as the left child of the current Node
+				ptr->setLeftChild(new Node(data,ptr,NULL,NULL)); // Create new node that is stored as left child of the current Node
 				return true;																// exit the function with true
 			}
 		}
@@ -32,7 +32,7 @@ bool BST::add(int data) {
 				ptr = ptr->getRightChild();				// update the ptr so that it points to the right child of the current Node
 			}
 			else {																					// Otherwise, ...
-				ptr->setRightChild(new Node(data,ptr,NULL,NULL));	// Create a new node that is stored as the right child of the current Node
+				ptr->setRightChild(new Node(data,ptr,NULL,NULL));	// Create new node that is stored as right child of the current Node
 				return true;																	// exit the function with true
 			}
 		}
@@ -71,24 +71,33 @@ void BST::clear() {
 	}
 
 /* * * * * * * * * * * * * */
-Node* BST::comp(int data, Node* ptr) {
+Node* BST::findNode(int data, Node* ptr) {
 	if(data < ptr->getData()) {
+		cout << data << " < " << ptr->getData() << endl;
+		cout << "Going Left" << endl;
 		if(ptr->getLeftChild() == NULL) {
+			cout << "\tNo value found, returning the ptr\n";
 			return ptr;
 		}
 		else {
+			cout << "\t\tRecursing with the left child\n";
 			comp(data,ptr->getLeftChild());
 		}
 	}	
 	else if(data > ptr->getData()) {
+		cout << data << " > " << ptr->getData() << endl;
+		cout << "Going Right" << endl;
 		if(ptr->getRightChild() == NULL) {
+			cout << "\tNo value found, returning the ptr\n";
 			return ptr;
 		}
 		else {
+			cout << "\t\tRecursing with the left child\n";
 			comp(data,ptr->getRightChild());
 		}
 	}
 	else {
+		cout << "value is a duplicate, returning NULL\n";
 		return NULL;
 	}
 }
