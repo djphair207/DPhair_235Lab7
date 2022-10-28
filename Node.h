@@ -19,9 +19,14 @@ public:
 	int getData() const;
 	Node *getLeftChild() const;
 	Node *getRightChild() const;
+	Node *getParent();
+	// Node*& getLeftChildRef();
+	// Node*& getRightChildRef();
+	// Node*& getParentRef();
 	void setData(int value);
 	void setLeftChild(Node *ptr);
 	void setRightChild(Node *ptr);
+	void setParent(Node *ptr);
 };
 
 #endif

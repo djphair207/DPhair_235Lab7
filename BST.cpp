@@ -7,34 +7,33 @@ Node* BST::getRootNode() const {
 
 /* * * * * * * * * * * * * */
 bool BST::add(int data) {
-	cout << "add" << endl;			//DEBUG
+	cout << "At the beginning of add" << endl;			//DEBUG
 	Node *ptr = root;						// Create a ptr to walk through the BST
+	Node *NullPtr = NULL;
 
 	if(ptr == NULL) {						// If the tree is empty...
+		cout << "tree was empty\n";
 		root = new Node(data);		// create a Node to hold the data value and have the root point to it
 		return true;							// Exit the function successfully
 	}
 	else {													// If the tree is not empty...
-		if(data == ptr->getData()) {			// If the parameter value is the same as what is stored in the current Node...
-			return false;										// exit the function with false
+		ptr = findNode(data,ptr);			// call the recursive function that returns parent of value's position
+		cout << "just returned the node ptr.\n\t" << ptr->getData() << " is stored in the node\n";
+		if(ptr == NULL) {								// If the returned ptr is NULL,
+			cout << "found a duplicate\n";
+			return false;									// a duplicate was found, exit the function with false
 		}
-		else if(data < ptr->getData()) {		// If the parameter value is less that what is stored in the current Node...
-			if(ptr->getLeftChild() != NULL) {	// If the left child of current node exists, 
-				ptr = ptr->getLeftChild();			// update the ptr so that it points to the left child of the current Node
-			}
-			else {																				// Otherwise, ...
-				ptr->setLeftChild(new Node(data,ptr,NULL,NULL)); // Create new node that is stored as left child of the current Node
-				return true;																// exit the function with true
-			}
+		else if(data < ptr->getData()) {	// if the parameter value is less than the data at the returned Node,
+			cout << "data is less than the current node, saving as left child\n";
+			Node *NN = new Node(data,ptr,NullPtr,NullPtr);		// create the new node with value and parent
+			ptr->setLeftChild(NN);					// connect the new node to the tree as returned node's left child
+			return true;										// exit the function with true
 		}
-		else if(data > ptr->getData()) {			// If the parameter value is greater that what is stored in the current Node...
-			if(ptr->getRightChild() != NULL){		// If the right child of current node exists, 
-				ptr = ptr->getRightChild();				// update the ptr so that it points to the right child of the current Node
-			}
-			else {																					// Otherwise, ...
-				ptr->setRightChild(new Node(data,ptr,NULL,NULL));	// Create new node that is stored as right child of the current Node
-				return true;																	// exit the function with true
-			}
+		else if(data > ptr->getData()) {		// if the parameter value is greater than the data at returned Node,
+			cout << "data is greater than the current node, saving as right child\n";
+			Node *NN = new Node(data,ptr,NullPtr,NullPtr);		// create the new node with value and parent
+			ptr->setRightChild(NN);									// connect new node to the tree as returned node's right child
+			return true;														// exit the function with true
 		}
 	}
 }
@@ -76,24 +75,24 @@ Node* BST::findNode(int data, Node* ptr) {
 		cout << data << " < " << ptr->getData() << endl;
 		cout << "Going Left" << endl;
 		if(ptr->getLeftChild() == NULL) {
-			cout << "\tNo value found, returning the ptr\n";
+			cout << "\tNo value found, returning the ptr to " << ptr->getData() << endl;
 			return ptr;
 		}
 		else {
 			cout << "\t\tRecursing with the left child\n";
-			comp(data,ptr->getLeftChild());
+			findNode(data,ptr->getLeftChild());
 		}
 	}	
 	else if(data > ptr->getData()) {
 		cout << data << " > " << ptr->getData() << endl;
 		cout << "Going Right" << endl;
 		if(ptr->getRightChild() == NULL) {
-			cout << "\tNo value found, returning the ptr\n";
+			cout << "\tNo value found, returning the ptr to " << ptr->getData() << endl;
 			return ptr;
 		}
 		else {
-			cout << "\t\tRecursing with the left child\n";
-			comp(data,ptr->getRightChild());
+			cout << "\t\tRecursing with the right child\n";
+			findNode(data,ptr->getRightChild());
 		}
 	}
 	else {
