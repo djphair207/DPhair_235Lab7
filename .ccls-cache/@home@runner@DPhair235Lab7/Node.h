@@ -15,10 +15,18 @@ private:						// Each Node will contain...
 public:
 	Node(const int& the_data, Node* parent = NULL, Node* leftChild = NULL, Node* rightChild = NULL):	// Base Constructor
 		data(the_data) {prev = parent; left = leftChild; right = rightChild;};			// Constructor overloaded for given values
-	~Node();		
+	~Node() {};		
 	int getData() const;
 	Node *getLeftChild() const;
 	Node *getRightChild() const;
+	Node *getParent();
+	Node*& getLeftChildRef();
+	Node*& getRightChildRef();
+	Node*& getParentRef();
+	void setData(int value);
+	void setLeftChild(Node *ptr);
+	void setRightChild(Node *ptr);
+	void setParent(Node *ptr);
 };
 
 #endif

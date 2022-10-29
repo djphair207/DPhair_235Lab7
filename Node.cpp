@@ -16,6 +16,18 @@ Node* Node::getParent() {
 	return prev;
 }
 
+Node*& Node::getLeftChildRef() {
+	return left;
+}
+
+Node*& Node::getRightChildRef() {
+	return right;
+}
+
+Node*& Node::getParentRef() {
+	return prev;
+}
+
 void Node::setData(int value) {
 	data = value;
 }

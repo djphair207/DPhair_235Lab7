@@ -74,25 +74,25 @@ Node* BST::findNode(int data, Node* ptr) {
 	if(data < ptr->getData()) {
 		cout << data << " < " << ptr->getData() << endl;
 		cout << "Going Left" << endl;
-		if(ptr->getLeftChild() == NULL) {
+		if(ptr->getLeftChildRef() == NULL) {
 			cout << "\tNo value found, returning the ptr to " << ptr->getData() << endl;
 			return ptr;
 		}
 		else {
 			cout << "\t\tRecursing with the left child\n";
-			findNode(data,ptr->getLeftChild());
+			findNode(data,ptr->getLeftChildRef());
 		}
 	}	
 	else if(data > ptr->getData()) {
 		cout << data << " > " << ptr->getData() << endl;
 		cout << "Going Right" << endl;
-		if(ptr->getRightChild() == NULL) {
+		if(ptr->getRightChildRef() == NULL) {
 			cout << "\tNo value found, returning the ptr to " << ptr->getData() << endl;
 			return ptr;
 		}
 		else {
 			cout << "\t\tRecursing with the right child\n";
-			findNode(data,ptr->getRightChild());
+			findNode(data,ptr->getRightChildRef());
 		}
 	}
 	else {
