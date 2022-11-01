@@ -74,5 +74,17 @@ void BST::newPar(Node*& old, Node*& curr) {
 
 /* * * * * * * * * * * * * */
 void BST::clear() {
+	cout << "entered the clear" << endl;
+	clear(root);
+	root = NULL;
+	
 	// Walk through the whole thing in a postorder and delete as you go
 	}
+
+void BST::clear(Node* curr_root) {
+	if(curr_root != NULL) {
+		clear(curr_root->left);
+		clear(curr_root->right);
+		delete curr_root;
+	}
+}

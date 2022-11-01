@@ -22,6 +22,7 @@ private:
 	bool add(Node*& curr_root, int data);
 	bool remove(Node*& curr_root, int data);
 	void newPar(Node*& old, Node*& curr);
+	void clear(Node* curr_root);
 };
 
 #endif
