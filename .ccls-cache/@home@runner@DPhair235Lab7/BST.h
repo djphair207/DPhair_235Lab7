@@ -18,7 +18,10 @@ public:
 	bool add(int data);
 	bool remove(int data);
 	void clear();
-	Node* findNode(int data, Node* ptr);
+private:
+	bool add(Node*& curr_root, int data);
+	bool remove(Node*& curr_root, int data);
+	void newPar(Node*& old, Node*& curr);
 };
 
 #endif

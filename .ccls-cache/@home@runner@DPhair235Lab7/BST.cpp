@@ -5,98 +5,74 @@ Node* BST::getRootNode() const {
 	return root;		// return the pointer to the root node
 }
 
-/* * * * * * * * * * * * * */
+/* * * * * * * ADD * * * * * * */
 bool BST::add(int data) {
-	cout << "At the beginning of add" << endl;			//DEBUG
-	Node *ptr = root;						// Create a ptr to walk through the BST
-	Node *NullPtr = NULL;
+	return add(this->root, data);	// call the other insert
+}
 
-	if(ptr == NULL) {						// If the tree is empty...
-		cout << "tree was empty\n";
-		root = new Node(data);		// create a Node to hold the data value and have the root point to it
-		return true;							// Exit the function successfully
+bool BST::add(Node*& curr_root, int data) {
+	if(curr_root == NULL) {		// if the tree is empty
+		curr_root = new Node(data);	// insert the claue as the root, L,R&Parent deafult to NULL
+		return true;	//success
 	}
-	else {													// If the tree is not empty...
-		ptr = findNode(data,ptr);			// call the recursive function that returns parent of value's position
-		cout << "just returned the node ptr.\n\t" << ptr->getData() << " is stored in the node\n";
-		if(ptr == NULL) {								// If the returned ptr is NULL,
-			cout << "found a duplicate\n";
-			return false;									// a duplicate was found, exit the function with false
+	else {
+		if (data < curr_root->data) {	// if value less than stored data
+			return add(curr_root->left, data);	// search and insert to Left
 		}
-		else if(data < ptr->getData()) {	// if the parameter value is less than the data at the returned Node,
-			cout << "data is less than the current node, saving as left child\n";
-			Node *NN = new Node(data,ptr,NullPtr,NullPtr);		// create the new node with value and parent
-			ptr->setLeftChild(NN);					// connect the new node to the tree as returned node's left child
-			return true;										// exit the function with true
+		else if (data > curr_root->data) {	// if value greater than stored data
+			return add(curr_root->right, data);	// search and insert to right
 		}
-		else if(data > ptr->getData()) {		// if the parameter value is greater than the data at returned Node,
-			cout << "data is greater than the current node, saving as right child\n";
-			Node *NN = new Node(data,ptr,NullPtr,NullPtr);		// create the new node with value and parent
-			ptr->setRightChild(NN);									// connect new node to the tree as returned node's right child
-			return true;														// exit the function with true
+		else {		// otherwise, it's a match
+			return false;	// failure
 		}
 	}
 }
 
-/* * * * * * * * * * * * * */
+/* * * * * * * REMOVE * * * * * * */
 bool BST::remove(int data) {
-	cout << "remove" << endl;				// DEBUG
-	Node *ptr = root;								// Create a ptr to walk through the BST
-	
-	if(root == NULL) {							// if the list is empty
-		return false;									// exit the function with false
-	}
+	return remove(this->root, data);
+}
 
-	if(data == ptr->getData()) {		// if the parameter value matches the data stored at the Node
-		Node *toReplace = ptr;				// save the current Node in a new ptr
-		
-		// save the current node in a ptr, find the next lowest value, replace the saved node, and then 
-		// delete the node you used for the replacement
+bool BST::remove(Node*& curr_root, int data) {
+	if (curr_root == NULL) {
+		return false;
 	}
-	
-	// if the list is empty, return false
-	// otherwise, look for the value. If it's not there, return false
-	// If you find it, save that node as 'old_root'. Then go down the left 
-	// branch of that Node and find the rightmost Node without a right 
-	// child in that branch. Save that one as 'local_root'. Replace the 
-	// value in 'old_root' with the value in 'local_root' and delete the 
-	// 'local_root' Node. Update its child/children so that its parent 
-	// now points to it/them and it/they point to it
+	else {
+		if(data < curr_root->data) {
+			return remove(curr_root->left, data);
+		}
+		else if (data > curr_root->data) {
+			return remove(curr_root->right, data);
+		}
+		else {
+			Node* old_root = curr_root;
+			if (curr_root->left == NULL) {
+				curr_root = curr_root->right;
+			}
+			else if (curr_root->right == NULL) {
+				curr_root = curr_root->left;
+			}
+			else {
+				newPar(old_root, old_root->left);
+			}
+			delete old_root;
+			return true;
+		}
+	}
+}
+
+void BST::newPar(Node*& old, Node*& curr) {
+	if (curr->right != NULL) {
+		newPar(old,curr->right);
+	}
+	else {
+		old->data = curr->data;
+		old = curr;
+		curr = curr->left;
+	}
 }
 
 /* * * * * * * * * * * * * */
 void BST::clear() {
 	// Walk through the whole thing in a postorder and delete as you go
 	}
-
-/* * * * * * * * * * * * * */
-Node* BST::findNode(int data, Node* ptr) {
-	if(data < ptr->getData()) {
-		cout << data << " < " << ptr->getData() << endl;
-		cout << "Going Left" << endl;
-		if(ptr->getLeftChildRef() == NULL) {
-			cout << "\tNo value found, returning the ptr to " << ptr->getData() << endl;
-			return ptr;
-		}
-		else {
-			cout << "\t\tRecursing with the left child\n";
-			findNode(data,ptr->getLeftChildRef());
-		}
-	}	
-	else if(data > ptr->getData()) {
-		cout << data << " > " << ptr->getData() << endl;
-		cout << "Going Right" << endl;
-		if(ptr->getRightChildRef() == NULL) {
-			cout << "\tNo value found, returning the ptr to " << ptr->getData() << endl;
-			return ptr;
-		}
-		else {
-			cout << "\t\tRecursing with the right child\n";
-			findNode(data,ptr->getRightChildRef());
-		}
-	}
-	else {
-		cout << "value is a duplicate, returning NULL\n";
-		return NULL;
-	}
-}
